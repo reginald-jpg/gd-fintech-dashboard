@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         UserRole @default(USER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  accounts     Account[]
+  transactions Transaction[]
+
+  @@index([createdAt])
+}
+
+model Account {
+  id        String      @id @default(cuid())
+  userId    String
+  type      AccountType @default(CHECKING)
+  currency  String      @default("USD")
+  balance   Decimal     @default(0.0)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@index([userId])
+}
+
+model Transaction {
+  id          String            @id @default(cuid())
+  userId      String
+  accountId   String
+  amount      Decimal
+  currency    String            @default("USD")
+  description String?
+  type        TransactionType
+  status      TransactionStatus @default(POSTED)
+  createdAt   DateTime          @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([accountId, createdAt])
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum AccountType {
+  CHECKING
+  SAVINGS
+}
+
+enum TransactionType {
+  DEBIT
+  CREDIT
+}
+
+enum TransactionStatus {
+  PENDING
+  POSTED
+  FAILED
+}
+

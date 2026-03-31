@@ -4,17 +4,8 @@
 import type { NextFunction, Request, Response } from "express";
 import crypto from "node:crypto";
 import { HttpError } from "../../middleware/errorHandler.js";
-import type { RegionProfile, TenantContext, TrustModuleKey } from "../types.js";
+import type { RegionProfile, TrustModuleKey } from "../types.js";
 import { SANDBOX_DEFAULT_MODULES } from "../config/featureFlags.js";
-
-declare global {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
-  namespace Express {
-    interface Request {
-      trustContext?: TenantContext;
-    }
-  }
-}
 
 function parseRegion(h: string | undefined): RegionProfile {
   const r = (h ?? "US").toUpperCase();

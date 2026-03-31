@@ -21,7 +21,7 @@ export async function listUsers(_req: Request, res: Response) {
       take: 50
     });
     res.json({ users });
-  } catch (error) {
+  } catch {
     // Offline fallback: return mock users
     const mockUsers = [
       { id: "mock-1", email: "admin@example.com", role: "admin", createdAt: "2023-01-01T00:00:00.000Z" },

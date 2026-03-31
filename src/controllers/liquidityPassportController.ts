@@ -1,5 +1,4 @@
 import type { Request, Response } from "express";
-import crypto from "node:crypto";
 
 export type LiquidityPassport = {
   id?: string;
@@ -19,7 +18,7 @@ export type LiquidityPassport = {
 const passports: Map<string, LiquidityPassport> = new Map();
 
 export function issuePassport(req: Request, res: Response) {
-  const { userId, metadata = {} } = req.body;
+  const { userId, metadata: _metadata = {} } = req.body;
   if (!userId) {
     return res.status(400).json({ error: "userId required" });
   }

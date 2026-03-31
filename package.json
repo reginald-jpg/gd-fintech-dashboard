@@ -9,7 +9,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "start:prod": "node dist/server.js",
-    "lint": "eslint .",
+    "lint": "eslint \"src/**/*.ts\" \"api/**/*.ts\" --no-error-on-unmatched-pattern",
     "test": "vitest run",
     "prisma:generate": "prisma generate",
     "prisma:migrate:dev": "prisma migrate dev",
@@ -36,9 +36,11 @@
     "@types/express": "^4.17.21",
     "@types/node": "^22.13.10",
     "@types/swagger-ui-express": "^4.1.6",
-    "eslint": "^9.22.0",
-    "typescript": "^5.7.3",
+    "@typescript-eslint/eslint-plugin": "^8.58.0",
+    "@typescript-eslint/parser": "^8.58.0",
+    "eslint": "^8.57.1",
     "tsx": "^4.19.3",
+    "typescript": "^5.7.3",
     "vitest": "^2.1.9"
   },
   "prisma": {

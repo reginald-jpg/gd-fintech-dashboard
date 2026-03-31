@@ -14,6 +14,7 @@ import industryIntelligenceRouter from "./routes/industryIntelligence.js";
 import { trustLayerRouter } from "./routes/trustLayerRoutes.js";
 import industryRoutes from "./routes/industryRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
+import intelRoutes from "./routes/intel.js";
 import { MOCK_MODE, toggleMockMode } from "./config.js";
 import { engines } from "./data/engines.js";
 import { modules } from "./data/modules.js";
@@ -72,6 +73,9 @@ export function createApp() {
   app.get("/api/modules", (_req, res) => res.json(modules));
   app.get("/api/governance", (_req, res) => res.json(governance));
   app.get("/api/monitoring", (_req, res) => res.json({ status: "ok", engines }));
+
+  /** Intel sectors + company match (`/api/intel/*`), same mount as local `server.ts`. */
+  app.use("/api", intelRoutes);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { apiBaseUrl } from "../../lib/apiBase";
 
 type Engine = {
   id: string;
@@ -15,7 +16,7 @@ type Engine = {
 };
 
 export default function EnginesPage() {
-  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080/api";
+  const apiBase = apiBaseUrl();
   const [q, setQ] = useState("");
   const [engines, setEngines] = useState<Engine[]>([]);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});

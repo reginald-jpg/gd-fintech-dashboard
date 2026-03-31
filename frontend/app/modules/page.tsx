@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { apiBaseUrl } from "../../lib/apiBase";
 
 type Module = {
   id: string;
@@ -14,7 +15,7 @@ type Module = {
 };
 
 export default function ModulesPage() {
-  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080/api";
+  const apiBase = apiBaseUrl();
   const [q, setQ] = useState("");
   const [modules, setModules] = useState<Module[]>([]);
   const [error, setError] = useState<string | null>(null);

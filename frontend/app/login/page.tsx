@@ -1,17 +1,18 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import { apiBaseUrl } from "../../lib/apiBase";
 
 export default function LoginPage() {
-  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080";
+  const apiOrigin = apiBaseUrl().replace(/\/api\/?$/, "");
   const [email, setEmail] = useState("user@example.com");
   const [password, setPassword] = useState("user123");
   const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const curlExample = useMemo(() => {
-    return `curl -X POST ${apiBase}/api/v1/users -H "Content-Type: application/json" -d '{"email":"newuser@example.com","password":"changeme"}'`;
-  }, [apiBase]);
+    return `curl -X POST ${apiOrigin}/api/v1/users -H "Content-Type: application/json" -d '{"email":"newuser@example.com","password":"changeme"}'`;
+  }, [apiOrigin]);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -20,7 +21,7 @@ export default function LoginPage() {
 
     try {
       // Mock login: just verifies backend is reachable and user list can be fetched.
-      const r = await fetch(`${apiBase}/api/v1/users`);
+      const r = await fetch(`${apiOrigin}/api/v1/users`);
       if (!r.ok) throw new Error(`Backend unreachable (${r.status})`);
 
       setResult(`Mock login ok for ${email}. (Backend reachable)`);

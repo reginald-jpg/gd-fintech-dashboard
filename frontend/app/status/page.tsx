@@ -1,22 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { apiBaseUrl } from "../../lib/apiBase";
 
 export default function StatusPage() {
-  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? (process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/api` : "http://localhost:8080/api");
-  const apiOrigin = apiBase.replace(/\/api\/?$/, "");
+  const apiBase = apiBaseUrl();
   const [status, setStatus] = useState<"loading" | "online" | "offline">("loading");
   const [details, setDetails] = useState<string>("");
 
   useEffect(() => {
-    if (!apiBase) {
-      setStatus("offline");
-      setDetails("NEXT_PUBLIC_API_BASE_URL is not set");
-      return;
-    }
-
     const ac = new AbortController();
-    fetch(`${apiOrigin}/health`, { signal: ac.signal })
+    fetch(`${apiBase}/health`, { signal: ac.signal })
       .then(async (r) => {
         const body = await r.text();
         if (!r.ok) throw new Error(`HTTP ${r.status}: ${body}`);
@@ -28,14 +22,14 @@ export default function StatusPage() {
         setDetails("Backend unavailable - running in offline mode");
       });
     return () => ac.abort();
-  }, [apiOrigin, apiBase]);
+  }, [apiBase]);
 
   return (
     <div className="grid">
       <section className="card">
         <h1 style={{ marginTop: 0 }}>System status</h1>
         <p className="p" style={{ marginBottom: 0 }}>
-          Pinging <code>{apiOrigin}/health</code>
+          Pinging <code>{apiBase}/health</code>
         </p>
       </section>
       <section className="card">

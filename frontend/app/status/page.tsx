@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 export default function StatusPage() {
-  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080/api";
+  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? (process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/api` : "http://localhost:8080/api");
   const apiOrigin = apiBase.replace(/\/api\/?$/, "");
   const [status, setStatus] = useState<"loading" | "online" | "offline">("loading");
   const [details, setDetails] = useState<string>("");

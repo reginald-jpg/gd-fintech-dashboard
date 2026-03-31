@@ -22,3 +22,13 @@ frontend/dist/
 # Logs
 logs
 *.log
+
+# Vercel
+.vercel/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# TypeScript
+*.tsbuildinfo

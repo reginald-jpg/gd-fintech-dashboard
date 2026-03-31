@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { apiBaseUrl } from "../lib/apiBase";
 
 export default function MockModeToggle() {
   const [mock, setMock] = useState<boolean | null>(null);
@@ -10,7 +11,8 @@ export default function MockModeToggle() {
   async function loadState() {
     // Only show demo/mock controls when backend is offline/unreachable.
     try {
-      const health = await fetch("http://localhost:8080/health");
+      const apiOrigin = apiBaseUrl().replace(/\/api\/?$/, "");
+      const health = await fetch(`${apiOrigin}/health`);
       if (health.ok) {
         setShow(false);
         return;
@@ -18,14 +20,14 @@ export default function MockModeToggle() {
     } catch {
       setShow(true);
     }
-    const res = await fetch("http://localhost:8080/api/mock-mode");
+    const res = await fetch(`${apiBaseUrl()}/mock-mode`);
     const data = await res.json();
     setMock(data.mock);
   }
 
   async function toggle() {
     setLoading(true);
-    const res = await fetch("http://localhost:8080/api/mock-mode/toggle", {
+    const res = await fetch(`${apiBaseUrl()}/mock-mode/toggle`, {
       method: "POST",
     });
     const data = await res.json();

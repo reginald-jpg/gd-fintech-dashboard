@@ -1,75 +1,57 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
-type User = {
-  id: string;
-  email: string;
-  role: string;
-  createdAt: string;
-  updatedAt?: string;
-};
-
+// app/dashboard/page.tsx
 export default function DashboardPage() {
-  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080";
-  const [users, setUsers] = useState<User[] | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const ac = new AbortController();
-    fetch(`${apiBase}/api/v1/users`, { signal: ac.signal })
-      .then(async (r) => {
-        if (!r.ok) throw new Error(`Request failed (${r.status})`);
-        return await r.json();
-      })
-      .then((data) => setUsers(data.users ?? []))
-      .catch((e: unknown) => setError(e instanceof Error ? e.message : "Unknown error"));
-    return () => ac.abort();
-  }, [apiBase]);
+  const sectorsCovered = 36;
+  const companiesScored = 128;
+  const avgConfidence = 0.87;
+  const estAnnualSavings = 42_000_000;
 
   return (
-    <div className="grid">
-      <section className="card">
-        <h1 style={{ marginTop: 0 }}>Dashboard</h1>
-        <p className="p" style={{ marginBottom: 0 }}>
-          This page calls <code>/api/v1/users</code> on the backend.
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-semibold tracking-tight">Dashboard</h1>
+        <p className="mt-2 text-sm text-slate-400">
+          High‑level view of sector coverage, confidence, and savings impact.
         </p>
-      </section>
+      </div>
 
-      <section className="card">
-        <h2 style={{ marginTop: 0 }}>Users</h2>
-        {error ? (
-          <p className="p">Error: {error}</p>
-        ) : users === null ? (
-          <p className="p">Loading…</p>
-        ) : users.length === 0 ? (
-          <p className="p">No users found.</p>
-        ) : (
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <thead>
-                <tr style={{ textAlign: "left", color: "rgba(234,240,255,0.75)" }}>
-                  <th style={{ padding: "10px 8px", borderBottom: "1px solid rgba(234,240,255,0.12)" }}>Email</th>
-                  <th style={{ padding: "10px 8px", borderBottom: "1px solid rgba(234,240,255,0.12)" }}>Role</th>
-                  <th style={{ padding: "10px 8px", borderBottom: "1px solid rgba(234,240,255,0.12)" }}>Created</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((u) => (
-                  <tr key={u.id}>
-                    <td style={{ padding: "10px 8px", borderBottom: "1px solid rgba(234,240,255,0.08)" }}>{u.email}</td>
-                    <td style={{ padding: "10px 8px", borderBottom: "1px solid rgba(234,240,255,0.08)" }}>{u.role}</td>
-                    <td style={{ padding: "10px 8px", borderBottom: "1px solid rgba(234,240,255,0.08)" }}>
-                      {new Date(u.createdAt).toLocaleString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </section>
+      <div className="grid gap-4 md:grid-cols-4">
+        <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
+          <p className="text-xs text-slate-400">Sectors covered</p>
+          <p className="mt-2 text-2xl font-semibold text-slate-50">
+            {sectorsCovered}
+          </p>
+        </div>
+        <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
+          <p className="text-xs text-slate-400">Companies scored</p>
+          <p className="mt-2 text-2xl font-semibold text-slate-50">
+            {companiesScored}
+          </p>
+        </div>
+        <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
+          <p className="text-xs text-slate-400">Avg. confidence</p>
+          <p className="mt-2 text-2xl font-semibold text-cyan-300">
+            {(avgConfidence * 100).toFixed(0)}%
+          </p>
+        </div>
+        <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
+          <p className="text-xs text-slate-400">Est. annual savings</p>
+          <p className="mt-2 text-2xl font-semibold text-emerald-300">
+            ${estAnnualSavings.toLocaleString("en-US")}
+          </p>
+        </div>
+      </div>
+
+      <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
+        <h2 className="text-sm font-semibold text-slate-200">
+          Intelligence summary
+        </h2>
+        <p className="mt-2 text-xs text-slate-400">
+          The engine classifies companies into sectors, applies the global trust
+          layer, and estimates savings based on sector‑specific rules and risk
+          models. Use the navigation to drill into sectors, engines, and
+          governance.
+        </p>
+      </div>
     </div>
   );
 }
-

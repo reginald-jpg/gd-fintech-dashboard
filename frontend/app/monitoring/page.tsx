@@ -1,8 +1,10 @@
 // app/monitoring/page.tsx
+import { apiBaseUrl } from "../../lib/apiBase";
+
 export default async function MonitoringPage() {
   let payload: any = null;
   try {
-    const res = await fetch("http://localhost:8080/api/monitoring", { cache: "no-store" });
+    const res = await fetch(`${apiBaseUrl()}/monitoring`, { cache: "no-store" });
     payload = await res.json();
   } catch {
     payload = { status: "offline", engines: [] };

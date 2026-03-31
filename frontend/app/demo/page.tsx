@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { apiBaseUrl } from "../../lib/apiBase";
 
 type Industry = {
   id: string;
@@ -44,7 +45,7 @@ export default function DemoPage() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch("http://localhost:8080/api/intel/sectors");
+        const res = await fetch(`${apiBaseUrl()}/intel/sectors`);
         if (!res.ok) throw new Error("Failed to load industries");
         const data = await res.json();
         setIndustries(data);
@@ -67,7 +68,7 @@ export default function DemoPage() {
       SAMPLE_COMPANIES[industry.name] || `${industry.name} Holdings`;
 
     try {
-      const res = await fetch("http://localhost:8080/api/company/match", {
+      const res = await fetch(`${apiBaseUrl()}/company/match`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: sampleName }),

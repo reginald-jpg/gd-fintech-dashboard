@@ -1,54 +1,54 @@
-import Link from "next/link";
+// frontend/app/page.tsx
+import Link from 'next/link';
+import { CompanySearch } from '../components/CompanySearch';
 
 export default function HomePage() {
   return (
-    <div className="grid" style={{ gap: 18 }}>
-      <section className="card">
-        <h1 className="h1">Production-ready fintech starter</h1>
-        <p className="p">
-          Backend API + Postgres + Prisma + Next.js, containerized for local development and ready to deploy on Render.
-        </p>
-        <div className="btnRow">
-          <Link className="btn btnPrimary" href="/dashboard">
-            Open Dashboard
-          </Link>
-          <Link className="btn" href="/status">
-            System Status
-          </Link>
-          <a className="btn" href={`${process.env.NEXT_PUBLIC_API_BASE_URL ?? ""}/docs`} target="_blank" rel="noreferrer">
-            API Docs
-          </a>
-        </div>
-      </section>
-
-      <section className="grid grid2">
-        <div className="card">
-          <h2 style={{ marginTop: 0 }}>What’s included</h2>
-          <ul style={{ margin: 0, color: "rgba(234,240,255,0.85)", lineHeight: 1.7 }}>
-            <li>Express API under /api/v1</li>
-            <li>Health check: GET /health</li>
-            <li>Users resource: /api/v1/users</li>
-            <li>Prisma models: users, accounts, transactions</li>
-            <li>Docker + docker-compose</li>
-            <li>Render deploy config + GitHub Actions</li>
-          </ul>
-        </div>
-        <div className="card">
-          <h2 style={{ marginTop: 0 }}>Quick actions</h2>
-          <div className="btnRow">
-            <Link className="btn" href="/login">
-              Login (mock)
+    <main className="min-h-screen bg-gradient-to-b from-gray-950 to-gray-900 text-gray-100">
+      <div className="mx-auto max-w-5xl px-4 py-10 space-y-10">
+        <header className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight">
+              Fintech Industry Intelligence
+            </h1>
+            <p className="mt-1 text-sm text-gray-400">
+              Match any company to one of 36 sectors, with savings and risk insights.
+            </p>
+          </div>
+          <nav className="flex items-center gap-4 text-sm">
+            <Link
+              href="/sectors"
+              className="text-gray-300 hover:text-emerald-400 underline-offset-4 hover:underline"
+            >
+              View all sectors
             </Link>
-            <Link className="btn" href="/status">
-              Ping backend
+          </nav>
+        </header>
+
+        <section className="space-y-4">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-400">
+            Company analysis
+          </h2>
+          <CompanySearch />
+        </section>
+
+        <section className="mt-8 rounded-lg border border-emerald-500/30 bg-emerald-500/5 p-4">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-sm font-semibold text-emerald-300">Demo mode</p>
+              <p className="text-xs text-emerald-100/80">
+                Click into any sector to load a sample company and pre-built workflow.
+              </p>
+            </div>
+            <Link
+              href="/sectors"
+              className="inline-flex items-center justify-center rounded-md border border-emerald-500/60 px-3 py-1.5 text-xs font-medium text-emerald-100 hover:bg-emerald-500/10"
+            >
+              Browse sectors
             </Link>
           </div>
-          <p className="p" style={{ marginTop: 12 }}>
-            Tip: set <code>NEXT_PUBLIC_API_BASE_URL</code> to your backend URL on Render.
-          </p>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </main>
   );
 }
-

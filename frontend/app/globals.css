@@ -1,0 +1,107 @@
+/* Tailwind base layers */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* GLOBAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BODY */
+body {
+  background-color: #0d0d0d;
+  color: #e5e5e5;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+/* LINKS */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* NAVBAR */
+.navbar {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #1f2937;
+}
+
+/* NAV ACTIVE TAB */
+.nav-active {
+  color: #fff;
+  border-bottom: 2px solid #3b82f6;
+  padding-bottom: 2px;
+}
+
+/* NAV HOVER */
+.nav-hover:hover {
+  color: #e5e7eb;
+}
+
+/* CARD */
+.card {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+/* BUTTONS */
+.btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.btn-outline {
+  border: 1px solid #374151;
+  color: #d1d5db;
+}
+
+.btn-outline:hover {
+  background: #1f2937;
+}
+
+/* DROPDOWN PANEL */
+.dropdown-panel {
+  background: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 8px;
+  padding: 8px 0;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}

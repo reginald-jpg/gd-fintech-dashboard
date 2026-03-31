@@ -1,4 +1,10 @@
-import { PrismaClient, UserRole, AccountType, TransactionType, TransactionStatus } from "@prisma/client";
+import {
+  PrismaClient,
+  UserRole,
+  AccountType,
+  TransactionType,
+  TransactionStatus
+} from "@prisma/client";
 import crypto from "node:crypto";
 
 const prisma = new PrismaClient();
@@ -8,6 +14,19 @@ function sha256(input: string) {
 }
 
 async function main() {
+  /** NEW — sandbox tenant for Trust Layer multi-tenant demos */
+  await prisma.tenant.upsert({
+    where: { slug: "sandbox" },
+    update: {},
+    create: {
+      slug: "sandbox",
+      name: "GD Fintech Sandbox",
+      region: "US",
+      dataResidency: "US",
+      complianceProfile: "US"
+    }
+  });
+
   const adminEmail = process.env.SEED_ADMIN_EMAIL ?? "admin@example.com";
   const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? "admin123";
   const userEmail = process.env.SEED_TEST_EMAIL ?? "user@example.com";

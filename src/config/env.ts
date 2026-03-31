@@ -7,7 +7,14 @@ const EnvSchema = z.object({
   CORS_ORIGINS: z.string().optional(),
   LOG_LEVEL: z.string().optional(),
   RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().optional(),
-  RATE_LIMIT_MAX: z.coerce.number().int().positive().optional()
+  RATE_LIMIT_MAX: z.coerce.number().int().positive().optional(),
+  /** Trust Layer: default true — allows requests without API key for local demos. */
+  TRUST_SANDBOX_MODE: z
+    .enum(["true", "false"])
+    .optional()
+    .transform((v) => v !== "false"),
+  TRUST_SIGNING_SECRET: z.string().optional(),
+  TRUST_SIGNING_KEY_ID: z.string().optional()
 });
 
 export type Env = z.infer<typeof EnvSchema>;

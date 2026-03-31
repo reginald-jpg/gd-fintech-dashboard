@@ -75,3 +75,44 @@ enum TransactionStatus {
   FAILED
 }
 
+// --- NEW: Multi-tenant Trust Layer (run `npx prisma migrate dev` to apply) ---
+
+model Tenant {
+  id                String              @id @default(cuid())
+  slug              String              @unique
+  name              String
+  region            String              @default("US")
+  dataResidency     String              @default("US")
+  complianceProfile String              @default("US")
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  apiKeys           TrustApiKey[]
+  modules           TenantTrustModule[]
+
+  @@index([region])
+}
+
+model TrustApiKey {
+  id        String   @id @default(cuid())
+  tenantId  String
+  keyHash   String
+  label     String?
+  roles     String[] @default([])
+  createdAt DateTime @default(now())
+  revokedAt DateTime?
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([keyHash])
+}
+
+model TenantTrustModule {
+  id        String   @id @default(cuid())
+  tenantId  String
+  moduleKey String
+  enabled   Boolean  @default(false)
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, moduleKey])
+}
+
